@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const Api = axios.create({
+const instance = axios.create({
   baseURL: import.meta.env.BASE_API || 'http://localhost:3000',
   timeout: 1000,
   headers: {
@@ -8,4 +8,4 @@ const Api = axios.create({
   },
 });
 
-export default Api;
+export default instance;

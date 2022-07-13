@@ -19,31 +19,31 @@
           <input
               v-model="registerState.email"
               type="email"
-              placeholder="Email"
+              placeholder="Почта"
           >
           <input
               v-model="registerState.password"
               type="password"
-              placeholder="Password"
+              placeholder="Пароль"
           >
           <input
               v-model="registerState.personalData.firstName"
               type="text"
-              placeholder="First Name"
+              placeholder="Имя"
           >
           <input
               v-model="registerState.personalData.lastName"
               type="text"
-              placeholder="Last Name"
+              placeholder="Фамилия"
           >
           <input
               v-model="registerState.personalData.birthday"
               type="date"
           >
-          <button>Sign up</button>
+          <button @click="register(registerState)">Создать</button>
         </main>
         <footer>
-          <router-link to="/">Back</router-link>
+          <router-link to="/">Назад</router-link>
         </footer>
       </div>
     </div>
@@ -52,6 +52,7 @@
 
 <script>
 import { defineComponent, ref } from "vue";
+import useAuth from "../hooks/useAuth";
 
 export default defineComponent({
   name: "RegistrationView",
@@ -67,9 +68,18 @@ export default defineComponent({
       }
     });
 
+    const { register, loading, authError } = useAuth('register');
+
     return {
       registerState,
+      loading,
+      authError,
+      register,
     };
   },
 });
 </script>
+
+<style lang="scss">
+@import "../styles/auth.scss";
+</style>
