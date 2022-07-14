@@ -29,7 +29,7 @@
               type="password"
               placeholder="Пароль"
           >
-          <router-link to="/">Забыли пароль?</router-link>
+          <router-link to="/reset-password">Забыли пароль?</router-link>
           <button @click="login(authState)">
             <span v-if="!loading">
               Войти
@@ -78,5 +78,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import "../styles/auth.scss";
+@import "../styles/views/auth";
 </style>

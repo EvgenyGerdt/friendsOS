@@ -81,5 +81,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import "../styles/auth.scss";
+@import "../styles/views/auth";
 </style>

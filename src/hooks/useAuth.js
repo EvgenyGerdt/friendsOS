@@ -1,20 +1,27 @@
-import { ref } from 'vue';
+import {computed, ref} from 'vue';
 import { useRouter } from "vue-router";
+import jwtDecode from "jwt-decode";
+
+import { useProfileStore } from "../stores/profile";
 import useApi from "./useApi";
 
 export default function useAuth (type = '', authCredentials = {}) {
     const { response: data, request, hasError: authError } = useApi('post', `/auth/${type}`, authCredentials);
     const loading = ref(false);
-    const isAuthenticated = ref(!!localStorage.getItem('token'));
 
+    const profileStore = useProfileStore();
     const router = useRouter();
 
     const login = async (credentials) => {
         loading.value = true;
         try {
             await request(credentials);
-
             localStorage.setItem('token', data.value.token);
+
+            const { user } = jwtDecode(data.value.token);
+            profileStore.saveProfileData(user);
+            profileStore.setAuthentication();
+
             router.push('/profile');
         } finally {
             loading.value = false;
@@ -31,14 +38,20 @@ export default function useAuth (type = '', authCredentials = {}) {
         }
     };
 
-    const logout = () => localStorage.removeItem('token');
+    const logout = () => {
+        localStorage.removeItem('token')
+
+        profileStore.setAuthentication();
+        profileStore.clearProfileData();
+        router.push('/');
+    };
 
     return {
         loading,
-        isAuthenticated,
         authError,
         login,
         register,
         logout,
+        isAuthenticated: computed(() => profileStore.isAuthenticated),
     };
 }
