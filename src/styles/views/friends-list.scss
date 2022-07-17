@@ -1,0 +1,75 @@
+.friends {
+  &__list {
+    &-empty {
+      display: flex;
+      flex-direction: column;
+
+      font-size: 24px;
+      color: #7c7c7c;
+
+      > button {
+        color: white;
+        background-color: dodgerblue;
+        font-weight: bold;
+
+        border: transparent;
+        border-radius: 1em;
+        height: 40px;
+      }
+    }
+
+    &-item {
+      display: flex;
+      align-items: center;
+
+      box-sizing: border-box;
+
+      width: 100%;
+      min-height: 60px;
+
+      padding: 30px 20px;
+      border-bottom: 1px solid #e1e1e1;
+
+      transition: .3s ease;
+
+      &:hover {
+        background-color: #f3f3f3;
+      }
+
+      &-inner {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+
+        &-personal {
+          font-weight: bold;
+          text-transform: capitalize;
+        }
+
+        > button {
+          background: transparent;
+          border: transparent;
+
+          color: #7c7c7c;
+
+          transition: .3s ease;
+
+          &:hover {
+            color: dodgerblue;
+          }
+
+          > span {
+            margin-left: 5px;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+}
+
+.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

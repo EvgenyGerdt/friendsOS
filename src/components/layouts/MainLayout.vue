@@ -9,7 +9,7 @@
 import { defineComponent } from "vue";
 import NavbarMenu from "../ui/NavbarMenu.vue";
 
-import useAuth from "../../hooks/useAuth";
+import useAuth from "../../hooks/component/useAuth";
 
 export default defineComponent({
   name: "MainLayout",

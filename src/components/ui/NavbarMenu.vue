@@ -5,20 +5,14 @@
         <font-awesome-icon class="navbar__icon" icon="message"/>
         <span class="navbar__title">FriendsOS</span>
 
-        <router-link class="navbar__menu-item" to="/profile">
-          Профиль
-        </router-link>
-        <router-link class="navbar__menu-item" to="/friends">
-          Друзья
-        </router-link>
-        <router-link class="navbar__menu-item" to="/messages">
-          Сообщения
-        </router-link>
-        <router-link class="navbar__menu-item" to="/events">
-          Мероприятия
-        </router-link>
-        <router-link class="navbar__menu-item" to="/about">
-          О проекте
+        <router-link
+            v-for="(item, index) in routes"
+            class="navbar__menu-item"
+            :class="{ active: route.path === item.path }"
+            :to="item.path"
+            :key="`${item}__${index}`"
+        >
+          {{ item.name }}
         </router-link>
       </div>
 
@@ -37,17 +31,46 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
-import useAuth from "../../hooks/useAuth";
+import { computed, defineComponent } from "vue";
+import { useRoute } from "vue-router";
+import useAuth from "../../hooks/component/useAuth";
+import { useProfileStore } from "../../stores/profile";
 
 export default defineComponent({
   name: "NavbarMenu",
 
   setup() {
+    const profile = useProfileStore();
+    const route = useRoute();
     const { logout } = useAuth();
 
+    const routes = computed(() => [
+      {
+        name: 'Профиль',
+        path: `/profile/${profile.id}`,
+      },
+      {
+        name: 'Друзья',
+        path: '/friends',
+      },
+      {
+        name: 'Сообщения',
+        path: '/messages',
+      },
+      {
+        name: 'Мероприятия',
+        path: '/events',
+      },
+      {
+        name: 'О проекте',
+        path: '/about',
+      },
+    ]);
+
     return {
-      logout
+      routes,
+      route,
+      logout,
     };
   },
 });

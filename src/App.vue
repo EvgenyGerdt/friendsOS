@@ -7,12 +7,29 @@
 </template>
 
 <script>
+import { defineComponent, onMounted } from "vue";
+import { useProfileStore } from "./stores/profile";
 import MainLayout from "./components/layouts/MainLayout.vue";
+import jwtDecode from "jwt-decode";
 
-export default {
+export default defineComponent({
   name: "App",
-  components: {MainLayout}
-}
+  components: { MainLayout },
+
+  setup() {
+    const profile = useProfileStore();
+
+    onMounted(() => {
+      const token = localStorage.getItem('token');
+
+      if (token) {
+        const { user } = jwtDecode(token);
+
+        profile.saveProfileData(user);
+      }
+    });
+  },
+})
 </script>
 
 <style>

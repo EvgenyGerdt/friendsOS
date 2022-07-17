@@ -7,6 +7,8 @@ import {
     faMessage,
     faCog,
     faArrowRightFromBracket,
+    faMagnifyingGlass,
+    faUserPlus,
 } from '@fortawesome/free-solid-svg-icons';
 
 import App from './App.vue'
@@ -17,6 +19,8 @@ library.add(
     faMessage,
     faCog,
     faArrowRightFromBracket,
+    faMagnifyingGlass,
+    faUserPlus,
 );
 
 const app = createApp(App)

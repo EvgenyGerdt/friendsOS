@@ -52,7 +52,7 @@
 
 <script>
 import { defineComponent, ref } from "vue";
-import useAuth from "../hooks/useAuth";
+import useAuth from "../hooks/component/useAuth";
 
 export default defineComponent({
   name: "RegistrationView",
@@ -68,7 +68,7 @@ export default defineComponent({
       }
     });
 
-    const { register, loading, authError } = useAuth('register');
+    const { register, loading, authError } = useAuth();
 
     return {
       registerState,

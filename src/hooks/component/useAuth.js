@@ -1,28 +1,31 @@
-import {computed, ref} from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from "vue-router";
 import jwtDecode from "jwt-decode";
 
-import { useProfileStore } from "../stores/profile";
-import useApi from "./useApi";
+import { useProfileStore } from "../../stores/profile";
+import instance from "../../config/Api";
 
-export default function useAuth (type = '', authCredentials = {}) {
-    const { response: data, request, hasError: authError } = useApi('post', `/auth/${type}`, authCredentials);
-    const loading = ref(false);
-
+export default function useAuth () {
     const profileStore = useProfileStore();
     const router = useRouter();
+
+    const loading = ref(false);
+    const hasError = ref(false);
 
     const login = async (credentials) => {
         loading.value = true;
         try {
-            await request(credentials);
-            localStorage.setItem('token', data.value.token);
+            const { token } = await instance.post('/auth/login', credentials)
+                .then((res) => res.data);
+            localStorage.setItem('token', token);
 
-            const { user } = jwtDecode(data.value.token);
+            const { user } = jwtDecode(token);
             profileStore.saveProfileData(user);
             profileStore.setAuthentication();
 
-            router.push('/profile');
+            router.push(`/profile/${user.id}`);
+        } catch (e) {
+            hasError.value = true;
         } finally {
             loading.value = false;
         }
@@ -32,7 +35,9 @@ export default function useAuth (type = '', authCredentials = {}) {
         loading.value = true;
 
         try {
-            await request(candidate);
+            await instance.post('/auth/register', candidate);
+        } catch (e) {
+            hasError.value = true;
         } finally {
             loading.value = false;
         }
@@ -48,7 +53,7 @@ export default function useAuth (type = '', authCredentials = {}) {
 
     return {
         loading,
-        authError,
+        hasError,
         login,
         register,
         logout,

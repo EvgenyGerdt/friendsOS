@@ -1,0 +1,14 @@
+.loading {
+  transition: 300ms ease-in-out;
+  animation: load 1.4s infinite linear;
+}
+
+@keyframes load {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

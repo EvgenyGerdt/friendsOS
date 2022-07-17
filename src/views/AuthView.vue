@@ -15,7 +15,7 @@
         </footer>
       </div>
       <div class="auth-view__form">
-        <div class="error" v-if="authError">
+        <div class="error" v-if="hasError">
           Неверная почта или пароль. Попробуйте заново.
         </div>
         <main>
@@ -52,7 +52,7 @@
 
 <script>
 import { defineComponent, ref } from 'vue';
-import useAuth from "../hooks/useAuth";
+import useAuth from "../hooks/component/useAuth";
 
 export default defineComponent({
   setup() {
@@ -64,14 +64,14 @@ export default defineComponent({
     const {
       login,
       loading,
-      authError
-    } = useAuth('login', authState.value);
+      hasError,
+    } = useAuth();
 
     return {
       authState,
       loading,
       login,
-      authError,
+      hasError,
     };
   },
 });
@@ -79,4 +79,5 @@ export default defineComponent({
 
 <style lang="scss">
 @import "../styles/views/auth";
+@import "../styles/components/ui/loading.scss";
 </style>

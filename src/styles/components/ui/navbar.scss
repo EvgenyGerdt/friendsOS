@@ -1,7 +1,6 @@
 .navbar {
   &__container {
     height: 50px;
-    width: 100%;
 
     border-bottom: 1px solid #e1e1e1;
   }
@@ -28,6 +27,10 @@
 
     margin-right: 5px;
     color: #4ca6ff;
+  }
+
+  &__icon, &__title {
+    user-select: none;
   }
 
   &__menu {
@@ -64,4 +67,8 @@
       }
     }
   }
+}
+
+.active {
+  color: #4ca6ff;
 }

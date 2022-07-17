@@ -1,27 +1,28 @@
 <template>
   <input v-model="email" placeholder="Почта">
 
-  <button @click="startTimer">
-    <span>
-      Отправить код
-    </span>
-  </button>
+  <timer-button
+      text="Отправить код"
+      time="1.min"
+      @start="sendCode"
+  />
 </template>
 
 <script>
 import { defineComponent, ref } from "vue";
-import useTimer from "../hooks/useTimer";
+import useResetPassword from "../hooks/component/useResetPassword";
+import TimerButton from "./timer-button.vue";
 
 export default defineComponent({
   name: "SendCodeStep",
-
+  components: { TimerButton },
   setup() {
     const email = ref('');
-    const { startTimer } = useTimer('3.min');
+    const { sendCode } = useResetPassword();
 
     return {
       email,
-      startTimer,
+      sendCode,
     };
   },
 })

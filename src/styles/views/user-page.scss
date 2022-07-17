@@ -15,6 +15,7 @@
 
   &__title {
     display: flex;
+    justify-content: space-between;
     align-items: end;
 
     padding-bottom: 25px;
@@ -25,5 +26,9 @@
     font-weight: bolder;
 
     height: 120px;
+
+    &-input {
+      width: 30%;
+    }
   }
 }
