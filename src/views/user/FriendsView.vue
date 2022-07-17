@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, watch, ref } from "vue";
+import { defineComponent, onMounted, watch } from "vue";
 import useProfile from "../../hooks/component/useProfile";
 import useFriends from "../../hooks/component/useFriends";
 import IconInput from "../../components/icon-input.vue";
@@ -66,14 +66,11 @@ export default defineComponent({
   name: "FriendsView",
   components: {IconInput},
   setup() {
-    const mode = ref(true);
-
     const { id } = useProfile();
     const { list, loading, getFriendList, findUsers } = useFriends();
 
     const searchValue = useDebouncedRef('', 1000);
 
-    const toggleMode = () => (mode.value = !mode.value);
 
     watch(searchValue, newSearchValue => findUsers(newSearchValue));
 
@@ -83,8 +80,6 @@ export default defineComponent({
       searchValue,
       list,
       loading,
-      mode,
-      toggleMode,
       getFriendList,
     };
   },
