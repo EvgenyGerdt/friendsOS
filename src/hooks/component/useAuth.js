@@ -3,9 +3,11 @@ import { useRouter } from "vue-router";
 import jwtDecode from "jwt-decode";
 
 import { useProfileStore } from "../../stores/profile";
+import { useAuthStore } from "../../stores/auth";
 import instance from "../../config/Api";
 
 export default function useAuth () {
+    const authStore = useAuthStore();
     const profileStore = useProfileStore();
     const router = useRouter();
 
@@ -21,7 +23,7 @@ export default function useAuth () {
 
             const { user } = jwtDecode(token);
             profileStore.saveProfileData(user);
-            profileStore.setAuthentication();
+            authStore.setAuthentication();
 
             router.push(`/profile/${user.id}`);
         } catch (e) {
@@ -46,7 +48,7 @@ export default function useAuth () {
     const logout = () => {
         localStorage.removeItem('token')
 
-        profileStore.setAuthentication();
+        authStore.setAuthentication();
         profileStore.clearProfileData();
         router.push('/');
     };
@@ -57,6 +59,6 @@ export default function useAuth () {
         login,
         register,
         logout,
-        isAuthenticated: computed(() => profileStore.isAuthenticated),
+        isAuthenticated: computed(() => authStore.isAuthenticated),
     };
 }

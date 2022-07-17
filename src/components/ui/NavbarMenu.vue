@@ -34,20 +34,18 @@
 import { computed, defineComponent } from "vue";
 import { useRoute } from "vue-router";
 import useAuth from "../../hooks/component/useAuth";
-import { useProfileStore } from "../../stores/profile";
 
 export default defineComponent({
   name: "NavbarMenu",
 
   setup() {
-    const profile = useProfileStore();
     const route = useRoute();
     const { logout } = useAuth();
 
     const routes = computed(() => [
       {
         name: 'Профиль',
-        path: `/profile/${profile.id}`,
+        path: `/profile/${localStorage.getItem('id')}`,
       },
       {
         name: 'Друзья',

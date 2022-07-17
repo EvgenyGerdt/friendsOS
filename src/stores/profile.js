@@ -5,14 +5,14 @@ export const useProfileStore = defineStore({
 
   state: () => ({
     user: null,
-    token: !!localStorage.getItem('token') || false,
+    isUserExists: false,
   }),
 
   getters: {
     id: (state) => state.user?.id,
     email: (state) => state.user?.email,
     personalData: (state) => state.user?.personalData,
-    isAuthenticated: (state) => state.token,
+    isUserExists: (state) => !!state.user,
   },
 
   actions: {
@@ -22,10 +22,6 @@ export const useProfileStore = defineStore({
 
     clearProfileData() {
       this.user = null;
-    },
-
-    setAuthentication() {
-      this.token = !this.token;
     },
   },
 });

@@ -7,17 +7,21 @@
         </span>
       </div>
 
-      <div class="profile">
+      <div class="profile" v-if="profileStore.isUserExists">
         <span class="profile__info-name">
-          {{ personalData.firstName }} {{ personalData.lastName }}
+          {{ profileStore.personalData.firstName }} {{ profileStore.personalData.lastName }}
+          <button v-if="!isOwner">
+            <font-awesome-icon icon="user-plus"/>
+            Добавить в друзья
+          </button>
         </span>
         <div class="profile__info-birthday">
-          День рождения: {{ personalData.birthday.replaceAll('-', '.') }}
+          День рождения: {{ profileStore.personalData.birthday.replaceAll('-', '.') }}
         </div>
         <div class="profile__info-contacts">
           Контакты:
           <div>
-            Email: {{ email }}
+            Email: {{ profileStore.email }}
           </div>
         </div>
       </div>
@@ -26,18 +30,31 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import {computed, defineComponent, onMounted} from "vue";
+import { useRoute, onBeforeRouteUpdate } from "vue-router";
 import { useProfileStore } from "../../stores/profile";
+import useProfile from '../../hooks/component/useProfile';
 
 export default defineComponent({
   name: "ProfileView",
 
   setup() {
-    const { email, personalData } = useProfileStore();
+    const route = useRoute();
+    const isOwner = computed(() => localStorage.getItem('id') === route.params.id);
+    const { loadCurrentProfile } = useProfile();
+    const profileStore = useProfileStore();
+
+    onMounted(() => loadCurrentProfile(route.params.id));
+
+    onBeforeRouteUpdate((to, from) => {
+      if (to.params.id !== from.params.id) {
+        loadCurrentProfile(to.params.id);
+      }
+    });
 
     return {
-      email,
-      personalData,
+      profileStore,
+      isOwner,
     };
   },
 });

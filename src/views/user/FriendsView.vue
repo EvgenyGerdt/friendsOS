@@ -57,7 +57,6 @@
 
 <script>
 import { defineComponent, onMounted, watch } from "vue";
-import useProfile from "../../hooks/component/useProfile";
 import useFriends from "../../hooks/component/useFriends";
 import IconInput from "../../components/icon-input.vue";
 import useDebouncedRef from "../../hooks/api/useDebouncedRef";
@@ -66,11 +65,9 @@ export default defineComponent({
   name: "FriendsView",
   components: {IconInput},
   setup() {
-    const { id } = useProfile();
     const { list, loading, getFriendList, findUsers } = useFriends();
 
     const searchValue = useDebouncedRef('', 1000);
-
 
     watch(searchValue, newSearchValue => findUsers(newSearchValue));
 

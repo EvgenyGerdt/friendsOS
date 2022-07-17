@@ -15,20 +15,6 @@ import jwtDecode from "jwt-decode";
 export default defineComponent({
   name: "App",
   components: { MainLayout },
-
-  setup() {
-    const profile = useProfileStore();
-
-    onMounted(() => {
-      const token = localStorage.getItem('token');
-
-      if (token) {
-        const { user } = jwtDecode(token);
-
-        profile.saveProfileData(user);
-      }
-    });
-  },
 })
 </script>
 

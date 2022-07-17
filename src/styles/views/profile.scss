@@ -3,8 +3,30 @@
 
   &__info {
     &-name {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
       font-size: 24px;
       font-weight: bold;
+
+      > button {
+        background: transparent;
+        border: transparent;
+
+        color: #7c7c7c;
+
+        transition: .3s ease;
+
+        &:hover {
+          color: dodgerblue;
+        }
+
+        > span {
+          margin-left: 5px;
+          font-weight: bold;
+        }
+      }
     }
 
     &-birthday {

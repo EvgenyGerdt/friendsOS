@@ -63,8 +63,9 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token');
+  const id = localStorage.getItem('id');
 
-  if (to.meta.isSecured && !token) {
+  if (to.meta.isSecured && (!token || !id)) {
     next('/');
   }
 
@@ -75,4 +76,4 @@ router.beforeEach((to, from, next) => {
   next();
 });
 
-export default router
+export default router;
