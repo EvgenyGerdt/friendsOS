@@ -19,7 +19,7 @@ const router = createRouter({
       component: () => import("../views/ResetPasswordView.vue"),
     },
     {
-      path: '/profile/:id',
+      path: '/profile',
       name: 'Profile',
       component: () => import("../views/user/ProfileView.vue"),
       meta: {
@@ -62,14 +62,13 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const token = localStorage.getItem('token');
-  const id = localStorage.getItem('id');
+  const isAuthenticated = !!localStorage.getItem('token');
 
-  if (to.meta.isSecured && (!token || !id)) {
+  if (to.meta.isSecured && !isAuthenticated && to.name !== 'Auth') {
     next('/');
   }
 
-  if (!to.meta.isSecured && token) {
+  if (!to.meta.isSecured && isAuthenticated) {
     next('/profile');
   }
 

@@ -13,6 +13,27 @@
             icon="magnifying-glass"
         />
       </div>
+
+      <div class="friends" v-if="friendRequests.length !== 0">
+        <div class="friends__list" v-if="!loading">
+          <div
+              class="friends__list-item"
+              v-for="(request, index) in friendRequests"
+              :key="`${request.id}__${index}`"
+          >
+            <div class="friends__list-item-inner">
+              <router-link class="friends__list-item-inner-personal" :to="`/profile/${request.id}`">
+                {{ request.personalData.firstName }} {{ request.personalData.lastName }}
+              </router-link>
+              <button @click="accept(request.id)">
+                <font-awesome-icon icon="check" />
+                <span>Принять заявку</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div
           class="friends"
           :class="{ empty: list.length === 0 }"
@@ -27,9 +48,14 @@
               <router-link class="friends__list-item-inner-personal" :to="`/profile/${user.id}`">
                 {{ user.personalData.firstName }} {{ user.personalData.lastName }}
               </router-link>
-              <button>
+              <button @click="createRequest(user.id)" v-if="true">
                 <font-awesome-icon icon="user-plus"/>
                 <span>Добавить в друзья</span>
+              </button>
+
+              <button v-else>
+                <font-awesome-icon icon="paper-plane" />
+                <span>Сообщения</span>
               </button>
             </div>
           </div>
@@ -37,6 +63,7 @@
 
         <div
             class="friends__list"
+            :class="{ spinner: loading }"
             v-else-if="loading && list.length === 0"
             style="font-size: 36px"
         >
@@ -63,11 +90,29 @@ import useDebouncedRef from "../../hooks/api/useDebouncedRef";
 
 export default defineComponent({
   name: "FriendsView",
-  components: {IconInput},
+  components: { IconInput },
   setup() {
-    const { list, loading, getFriendList, findUsers } = useFriends();
+    const {
+      list,
+      friendRequests,
+      loading,
+      getFriendList,
+      findUsers,
+      createRequest,
+      acceptRequest,
+    } = useFriends();
 
     const searchValue = useDebouncedRef('', 1000);
+
+    const accept = async (from) => {
+      try {
+        await acceptRequest(from);
+      } finally {
+        await getFriendList();
+      }
+    };
+
+    const isFriend = (user) => !!list.value.find((item) => item.id === user.id);
 
     watch(searchValue, newSearchValue => findUsers(newSearchValue));
 
@@ -76,8 +121,12 @@ export default defineComponent({
     return {
       searchValue,
       list,
+      friendRequests,
       loading,
+      isFriend,
       getFriendList,
+      createRequest,
+      accept,
     };
   },
 });

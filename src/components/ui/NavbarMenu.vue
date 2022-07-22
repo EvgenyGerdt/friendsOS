@@ -17,6 +17,12 @@
       </div>
 
       <div class="navbar__settings">
+        <button class="navbar__settings-item">
+          <font-awesome-icon
+              icon="bell"
+          />
+          <span class="navbar__settings-notif">3</span>
+        </button>
         <router-link class="navbar__settings-item" to="/">
           <font-awesome-icon icon="cog"/>
         </router-link>
@@ -45,7 +51,7 @@ export default defineComponent({
     const routes = computed(() => [
       {
         name: 'Профиль',
-        path: `/profile/${localStorage.getItem('id')}`,
+        path: '/profile',
       },
       {
         name: 'Друзья',

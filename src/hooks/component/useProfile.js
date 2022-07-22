@@ -10,7 +10,11 @@ export default function useProfile() {
 
     const loadCurrentProfile = async (id) => {
       const user = await instance
-          .get(`/user/${id}`)
+          .get(`/user/${id}`, {
+              headers: {
+                  'Authorization': `Bearer ${localStorage.getItem('token')}`,
+              },
+          })
           .then((res) => res.data);
 
       profile.saveProfileData(user);

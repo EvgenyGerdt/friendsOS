@@ -12,6 +12,7 @@ export const useProfileStore = defineStore({
     id: (state) => state.user?.id,
     email: (state) => state.user?.email,
     personalData: (state) => state.user?.personalData,
+    online: (state) => state.user?.online,
     isUserExists: (state) => !!state.user,
   },
 

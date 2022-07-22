@@ -34,5 +34,21 @@
       font-size: 18px;
       color: #6b6b6b;
     }
+
+    &-status {
+      margin: 10px 0;
+      color: #7c7c7c;
+    }
+
+    &-status.online {
+      color: #4ca6ff;
+    }
+  }
+}
+
+.notification {
+  &:after {
+    content: "3";
+    font-weight: 30px;
   }
 }
